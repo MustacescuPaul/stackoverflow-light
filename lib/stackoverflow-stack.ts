@@ -4,6 +4,7 @@ import {
   AccessLogFormat,
   Cors,
   Deployment,
+  LambdaIntegration,
   LogGroupLogDestination,
   RestApi,
   Stage,
@@ -108,10 +109,23 @@ export class StackoverflowStack extends cdk.Stack {
       },
     });
 
+    const questionsPath = stackOverflowApi.root.addResource("questions");
+    const questionPath = questionsPath.addResource("{questionId}");
+    const answersPath = stackOverflowApi.root.addResource("answers");
+    const votesPath = stackOverflowApi.root.addResource("votes");
+    const analyticsPath = stackOverflowApi.root.addResource("analytics");
+
+    questionsPath.addMethod("POST", new LambdaIntegration(createQuestion));
+    questionsPath.addMethod("GET", new LambdaIntegration(getQuestions));
+    questionPath.addMethod("GET", new LambdaIntegration(getQuestion));
+    answersPath.addMethod("POST", new LambdaIntegration(createAnswer));
+    votesPath.addMethod("POST", new LambdaIntegration(createVotes));
+    analyticsPath.addMethod("GET", new LambdaIntegration(getAnalytics));
+
     const deployment = new Deployment(this, "stackOverflowApiDeployment", {
       api: stackOverflowApi,
     });
 
-    new Stage(this, `v1`, { deployment, stageName: "v1_stage" });
+    new Stage(this, `v1`, { deployment, stageName: "v1" });
   }
 }
