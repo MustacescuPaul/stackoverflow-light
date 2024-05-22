@@ -1,17 +1,17 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as Stackoverflow from '../lib/stackoverflow-stack';
+import { creatAuthorisedAxiosInstance } from "../shared/testing/utils";
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/stackoverflow-stack.ts
-test('SQS Queue Created', () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new Stackoverflow.StackoverflowStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
+describe("test", () => {
+  test("test", async () => {
+    const authenticatedAxios = await creatAuthorisedAxiosInstance();
 
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+    let response;
+    try {
+      response = await authenticatedAxios.post(`questions `, {
+        test: "test",
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    console.log(response?.data);
+  });
 });
