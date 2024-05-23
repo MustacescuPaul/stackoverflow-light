@@ -5,11 +5,11 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { v4 } from "uuid";
-import { AnswerQuery, AnswerRequest } from "../../shared/types";
+import { Answer, AnswerQuery, AnswerRequest } from "../../shared/types";
 import { getEnvVar } from "../../shared/utils";
 
 export const mapCreateAnswerQuery = (
-  answer: AnswerRequest["answer"],
+  answer: Answer,
   userId: string,
   answerId: string,
   questionId: string,
@@ -30,12 +30,12 @@ export const mapCreateAnswerQuery = (
     GSI1SK: gsi1Sk,
     GSI2PK: gsi2Pk,
     GSI2SK: gsi2Sk,
-    body: answer.body,
+    ...answer,
   };
 };
 
 export const createAnswer = async (
-  answer: AnswerRequest["answer"],
+  answer: Answer,
   questionId: string,
   userId: string,
 ): Promise<PutItemCommandOutput> => {

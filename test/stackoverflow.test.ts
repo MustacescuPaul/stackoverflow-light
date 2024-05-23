@@ -1,5 +1,11 @@
+import { PutItemCommandOutput } from "@aws-sdk/client-dynamodb";
 import { creatAuthorisedAxiosInstance } from "../shared/testing/utils";
-import { QuestionDBItem, QuestionRequest } from "../shared/types";
+import {
+  AnswerDBItem,
+  AnswerRequest,
+  QuestionDBItem,
+  QuestionRequest,
+} from "../shared/types";
 
 describe("test create-question", () => {
   test("should create a question and return it", async () => {
@@ -92,10 +98,58 @@ describe("test get-questions", () => {
     const authenticatedAxios = await creatAuthorisedAxiosInstance();
 
     try {
-      const response = await authenticatedAxios.get(`questions`);
-
+      const response = await authenticatedAxios.get<{
+        items: QuestionDBItem[];
+        lastEvaluatedKey?: string;
+      }>(`questions`);
+      console.log(response.data);
       expect(response).toBeDefined();
       expect(response.data.items).toEqual(expect.any(Array));
+    } catch (e) {
+      console.log(e);
+    }
+  });
+});
+
+describe("test create-answer", () => {
+  test("should create an answer for a question", async () => {
+    const authenticatedAxios = await creatAuthorisedAxiosInstance();
+
+    const request: QuestionRequest = {
+      question: { body: "test question" },
+      userId: "121212",
+    };
+
+    let answerResponse;
+    try {
+      answerResponse = await authenticatedAxios.post<
+        QuestionRequest,
+        { data: QuestionDBItem }
+      >(`questions`, request);
+    } catch (e) {
+      console.log(e);
+    }
+
+    if (!answerResponse) {
+      throw new Error("Create answerResponse failed");
+    }
+
+    const questionId = answerResponse.data.PK.split("#")[1];
+
+    const answerRequest: AnswerRequest = {
+      answer: { body: "test answer" },
+      userId: "121212",
+      questionId: questionId,
+    };
+
+    try {
+      const response = await authenticatedAxios.post<
+        AnswerRequest,
+        { data: PutItemCommandOutput }
+      >(`answers`, answerRequest);
+
+      expect(response).toBeDefined();
+      expect(response.data.$metadata.httpStatusCode).toBe(200);
     } catch (e) {
       console.log(e);
     }

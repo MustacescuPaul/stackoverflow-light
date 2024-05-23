@@ -199,11 +199,9 @@ export class StackoverflowStack extends cdk.Stack {
       authorizationType: AuthorizationType.COGNITO,
       authorizationScopes: [oauthAppScope.scopeName],
     });
-    questionsPath.addMethod("GET", new LambdaIntegration(getQuestions), {
-      authorizer: cognitoAuthoriser,
-      authorizationType: AuthorizationType.COGNITO,
-      authorizationScopes: [oauthAppScope.scopeName],
-    });
+
+    questionsPath.addMethod("GET", new LambdaIntegration(getQuestions));
+
     questionPath.addMethod("GET", new LambdaIntegration(getQuestion), {
       authorizer: cognitoAuthoriser,
       authorizationType: AuthorizationType.COGNITO,
@@ -214,6 +212,7 @@ export class StackoverflowStack extends cdk.Stack {
       authorizationType: AuthorizationType.COGNITO,
       authorizationScopes: [oauthAppScope.scopeName],
     });
+
     votesPath.addMethod("POST", new LambdaIntegration(createVotes), {
       authorizer: cognitoAuthoriser,
       authorizationType: AuthorizationType.COGNITO,
