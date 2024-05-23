@@ -31,6 +31,10 @@ I added integration tests for all the endpoints.
 
 This project leverages API Gateway Stages for versioning. It is currently deploying to the `v1` stage.
 
+## Git
+
+I didn't use any branching strategy to keep it simple and quick.
+
 ## Functionalities
 
 I didn't get a chance to implement:
