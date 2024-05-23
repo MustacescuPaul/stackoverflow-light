@@ -19,6 +19,7 @@ Once the project is deployed, you will need to fetch the following and add them 
 
 - API Gateway base URL from `Outputs`
 - Client secret, client id and domain from the `User Pool Client` in AWS Cognito
+  These would normally live in AWS Secrets Manager / .env
 
 ## Testing
 
@@ -29,6 +30,15 @@ I added integration tests for all the endpoints.
 ## API versioning
 
 This project leverages API Gateway Stages for versioning. It is currently deploying to the `v1` stage.
+
+## Functionalities
+
+I didn't get a chance to implement:
+
+- Analytics
+- Get number of votes and andswers on the list of questions
+- Vote functionality
+- WebSockets for duplex communication
 
 ## Database choice
 
