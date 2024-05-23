@@ -1,0 +1,135 @@
+openapi: "3.0.1"
+info:
+  title: "StackOverflowApi"
+  description: "The StacOverflow API"
+  version: "2024-05-22T19:55:48Z"
+servers:
+- url: "https://cn2j90jt69.execute-api.eu-west-2.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "v1"
+paths:
+  /answers:
+    post: {}
+    options:
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /analytics:
+    get: {}
+    options:
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /votes:
+    post: {}
+    options:
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /questions/{questionId}:
+    get:
+      parameters:
+      - name: "questionId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+    options:
+      parameters:
+      - name: "questionId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /:
+    options:
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /questions:
+    get: {}
+    post:
+      security:
+      - StackoverflowStackCognitoAuthorizerE796458F:
+        - "stack-overflow-resource-server/app"
+    options:
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+components:
+  securitySchemes:
+    StackoverflowStackCognitoAuthorizerE796458F:
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"
+      x-amazon-apigateway-authtype: "cognito_user_pools"

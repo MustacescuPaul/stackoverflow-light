@@ -98,7 +98,11 @@ export class StackoverflowStack extends cdk.Stack {
       memorySize: 128,
       timeout: cdk.Duration.seconds(60),
       architecture: Architecture.ARM_64,
+      environment: {
+        tableName: table.tableName,
+      },
     });
+    table.grantReadWriteData(createQuestion);
 
     const getQuestion = new NodejsFunction(this, "GetQuestion", {
       entry: path.join(__dirname, "../lambdas/get-question/index.ts"),
@@ -107,7 +111,12 @@ export class StackoverflowStack extends cdk.Stack {
       memorySize: 128,
       timeout: cdk.Duration.seconds(60),
       architecture: Architecture.ARM_64,
+      environment: {
+        tableName: table.tableName,
+      },
     });
+
+    table.grantReadData(getQuestion);
 
     const getQuestions = new NodejsFunction(this, "GetQuestions", {
       entry: path.join(__dirname, "../lambdas/get-questions/index.ts"),
@@ -116,7 +125,12 @@ export class StackoverflowStack extends cdk.Stack {
       memorySize: 128,
       timeout: cdk.Duration.seconds(60),
       architecture: Architecture.ARM_64,
+      environment: {
+        tableName: table.tableName,
+      },
     });
+
+    table.grantReadData(getQuestions);
 
     const createAnswer = new NodejsFunction(this, "CreateAnswer", {
       entry: path.join(__dirname, "../lambdas/create-answer/index.ts"),
@@ -125,7 +139,12 @@ export class StackoverflowStack extends cdk.Stack {
       memorySize: 128,
       timeout: cdk.Duration.seconds(60),
       architecture: Architecture.ARM_64,
+      environment: {
+        tableName: table.tableName,
+      },
     });
+
+    table.grantReadWriteData(createAnswer);
 
     const createVotes = new NodejsFunction(this, "CreateVotes", {
       entry: path.join(__dirname, "../lambdas/create-votes/index.ts"),
