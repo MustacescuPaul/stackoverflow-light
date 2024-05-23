@@ -16,3 +16,11 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 ## Process diagram
 
 ![Alt text](process-diagram.png?raw=true "Process diagram")
+
+## Database design
+
+![Alt text](table-design.png?raw=true "Table design")
+
+## Architecture diagram
+
+![Alt text](architecture-diagram.png?raw=true "Architecture diagram")
